@@ -135,6 +135,8 @@ resource "aws_s3_object" "this" {
   key    = join("/", compact([var.bucket_prefix, local.zip_name]))
   source = local.forwarder_zip
 
+  acl = "private" # This was the default in Terraform AWS Provider v4, now it is null and throws an error during plan and apply with Terraform AWS Provider v5
+
   content_encoding = "zip"
   content_language = "en-US"
   content_type     = "application/zip"
