@@ -233,7 +233,7 @@ resource "aws_kms_alias" "datadog" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.0"
+  version = "~> 5.1"
 
   name = local.name
   cidr = "10.0.0.0/16"
@@ -261,12 +261,16 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
+  # Defaults to true from v4.0.0 onwards
+  manage_default_route_table = false
+  manage_default_network_acl = false
+
   tags = local.tags
 }
 
 module "vpc_endpoints" {
   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
-  version = "~> 3.0"
+  version = "~> 5.1"
 
   vpc_id             = module.vpc.vpc_id
   security_group_ids = [module.security_group.security_group_id]
